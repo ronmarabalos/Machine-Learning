@@ -1,0 +1,89 @@
+Machine learning Roadmap
+
+need to learn
+
+1. Python
+2. Numpy (arrays and maths)
+3. Pandas (data manipulation)
+4. matplotlib (visualization, plots, graphs, etc.)
+
+Math
+1. Linear Algebra basics
+2. Prob and stat
+3. Calculus
+
+Core machine learning
+
+Supervided learning.
+
+1. Linear regression
+2. Logistic regression
+3. Decision Trees
+4. Random Forests
+5. SVM = Support Vector Machines
+
+Unsupervise learning
+1. K- means clustering
+2. PCA (Dimensionality reduction)
+
+
+"What problems it solve.
+"When to use it versus the alternatives that exist."
+"How to evaluate it."
+
+Deep learning
+
+Neural Networks
+1. What a neuron is
+2. Layers
+3. Activation Functions
+4. Forward/backward Pass
+5. Loss Functions
+6. Optimizers
+7. Back propagation
+Pytorch
+
+Key Architectures to learn
+- Feedforward Networks
+- CNN (for images)
+- Recurrent Neural Networks (RNNs)
+- LSTMs (for sequences)
+- Transformers (the architecture behind every LLM)
+
+Project Ideas
+1. Image classifier with CNNs
+2. Sentiment analysis with simle RNN
+3. Fine-tune a pretrained model from Hugging Face
+
+Skills that get me hired
+
+FIRST MLOps & DEPLOYMENT
+1. Docker
+2. Model serving (FASTAPI, FLASK)
+3. Monitoring for data drift
+4. CI/CD for ML pipelines
+
+WORKING with REAL DATA
+
+FEATURE ENGINEERING
+
+VERSION CONTROL
+
+CLOUD PLATFORMS
+
+HOW TO LEARN EFFECTIVELY
+RULE 70/30
+70% time on building projects
+30% time on theory nad and courses
+
+LEARN IN PUBLIC
+
+1.Post your projects on Github
+2.  Write about what you learned
+
+BUILD ONE END-TO-END Project
+1. Data Collection
+2. Cleaning
+3. Training
+4. Evaluation
+5. Deployment
