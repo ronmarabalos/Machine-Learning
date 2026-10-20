@@ -15,22 +15,22 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 
 ---
 
-## Phase 1 — Python data tools (Week 1)
-- [ ] NumPy (arrays and maths) (left: imported but not used yet; practice arrays, math, filtering)
-- [ ] Pandas (data manipulation): load, clean, group, merge (left: merge)
+## Phase 1 — Python data tools (Week 1) ✅
+- [x] NumPy (arrays and maths) — 2026-10-21, notebooks/02-categorizer.ipynb (A1)
+- [x] Pandas (data manipulation): load, clean, group, merge — 2026-10-21, notebooks/01-explore-spending.ipynb + 02-categorizer.ipynb (A2)
 - [x] Matplotlib (plots, graphs) — 2026-10-21, notebooks/01-explore-spending.ipynb
 - [x] Export my own transactions as CSV (or use a public/fake dataset) — 2026-10-21, scripts/generate_fake_data.py
 
 **Mini project:** Explore my spending in a Jupyter notebook. Top categories, monthly totals, charts. ✅ 2026-10-21
 
-## Phase 2 — Core ML + Feature #1: Auto-categorize transactions (Week 2)
-- [ ] scikit-learn basics: train/test split, fit, predict
-- [ ] Text features: TF-IDF on transaction descriptions
-- [ ] Logistic Regression, Decision Trees, Random Forests
-- [ ] **Evaluation:** accuracy, precision/recall, F1, confusion matrix, cross-validation
-- [ ] Overfitting vs underfitting, bias–variance tradeoff
+## Phase 2 — Core ML + Feature #1: Auto-categorize transactions (Week 2) ✅
+- [x] scikit-learn basics: train/test split, fit, predict — 2026-10-21, notebooks/02-categorizer.ipynb (B2, B4)
+- [x] Text features: TF-IDF on transaction descriptions — 2026-10-21, notebooks/02-categorizer.ipynb (B3)
+- [x] Logistic Regression, Decision Trees, Random Forests — 2026-10-21, notebooks/02-categorizer.ipynb (B4, B6)
+- [x] **Evaluation:** accuracy, precision/recall, F1, confusion matrix, cross-validation — 2026-10-21, notebooks/02-categorizer.ipynb (B5, B7)
+- [x] Overfitting vs underfitting, bias–variance tradeoff — 2026-10-21, notebooks/02-categorizer.ipynb (B6 + shallow tree)
 
-**Ship:** A model that turns "STARBUCKS #123" into "Food", saved to a file.
+**Ship:** A model that turns "STARBUCKS #123" into "Food", saved to a file. ✅ 2026-10-21
 
 ## Phase 3 — Deployment: connect ML to the app (Week 3)
 - [ ] FastAPI: a `/categorize` endpoint
