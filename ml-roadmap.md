@@ -16,12 +16,12 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 ---
 
 ## Phase 1 — Python data tools (Week 1)
-- [ ] NumPy (arrays and maths)
-- [ ] Pandas (data manipulation): load, clean, group, merge
-- [ ] Matplotlib (plots, graphs)
-- [ ] Export my own transactions as CSV (or use a public/fake dataset)
+- [ ] NumPy (arrays and maths) (left: imported but not used yet; practice arrays, math, filtering)
+- [ ] Pandas (data manipulation): load, clean, group, merge (left: merge)
+- [x] Matplotlib (plots, graphs) — 2026-10-21, notebooks/01-explore-spending.ipynb
+- [x] Export my own transactions as CSV (or use a public/fake dataset) — 2026-10-21, scripts/generate_fake_data.py
 
-**Mini project:** Explore my spending in a Jupyter notebook. Top categories, monthly totals, charts.
+**Mini project:** Explore my spending in a Jupyter notebook. Top categories, monthly totals, charts. ✅ 2026-10-21
 
 ## Phase 2 — Core ML + Feature #1: Auto-categorize transactions (Week 2)
 - [ ] scikit-learn basics: train/test split, fit, predict
