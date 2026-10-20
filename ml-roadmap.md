@@ -1,0 +1,100 @@
+# Machine Learning Roadmap
+
+**Goal:** ML Engineer job
+**Main project:** Add ML features to my Budget Tracker app (React Native + TypeScript)
+**Time budget:** 12 hrs/day, 6 days/week (1 rest day to avoid burnout)
+**Total:** ~8 weeks, then job applications
+
+## How it fits together
+
+```
+React Native app (TypeScript)  --fetch()-->  Python ML API (FastAPI + Docker)  -->  trained models
+```
+
+The app stays in TypeScript. All ML lives in a separate Python service the app calls.
+
+---
+
+## Phase 1 — Python data tools (Week 1)
+- [ ] NumPy (arrays and maths)
+- [ ] Pandas (data manipulation): load, clean, group, merge
+- [ ] Matplotlib (plots, graphs)
+- [ ] Export my own transactions as CSV (or use a public/fake dataset)
+
+**Mini project:** Explore my spending in a Jupyter notebook. Top categories, monthly totals, charts.
+
+## Phase 2 — Core ML + Feature #1: Auto-categorize transactions (Week 2)
+- [ ] scikit-learn basics: train/test split, fit, predict
+- [ ] Text features: TF-IDF on transaction descriptions
+- [ ] Logistic Regression, Decision Trees, Random Forests
+- [ ] **Evaluation:** accuracy, precision/recall, F1, confusion matrix, cross-validation
+- [ ] Overfitting vs underfitting, bias–variance tradeoff
+
+**Ship:** A model that turns "STARBUCKS #123" into "Food", saved to a file.
+
+## Phase 3 — Deployment: connect ML to the app (Week 3)
+- [ ] FastAPI: a `/categorize` endpoint
+- [ ] Docker: containerize the API
+- [ ] Deploy it (Render, Railway, Fly.io, or similar)
+- [ ] Call it from the React Native app with `fetch` + a TypeScript type for the response
+
+**Ship:** New transactions in the app get auto-categorized. ← This is what makes me an ML *engineer*.
+
+## Phase 4 — Feature #2 & #3: Anomalies + Forecasting (Weeks 4–5)
+- [ ] Unsupervised learning: K-means clustering, PCA
+- [ ] Anomaly detection (Isolation Forest): "you spent 3× your normal on X"
+- [ ] Regression + gradient boosting (XGBoost / LightGBM): predict next month's spending
+- [ ] Feature engineering: rolling averages, day-of-week, recurring payments
+- [ ] Avoid data leakage with time-based splits
+
+**Ship:** `/anomalies` and `/forecast` endpoints + screens in the app.
+
+## Phase 5 — Deep Learning (Weeks 6–7)
+- [ ] Neural network basics: neurons, layers, activation functions, loss functions, optimizers
+- [ ] Forward pass / backpropagation
+- [ ] PyTorch
+- [ ] Transformers + Hugging Face: fine-tune a small model for categorization
+- [ ] Compare it with the Phase 2 model (accuracy vs speed vs cost)
+- [ ] Know what CNNs / RNNs / LSTMs are (concepts only, no need to build)
+
+**Ship:** Blog post: "scikit-learn vs a fine-tuned transformer for categorizing my transactions"
+
+## Phase 6 — MLOps polish (Week 8)
+- [ ] Version control for code (Git) and data/models (DVC)
+- [ ] CI/CD: GitHub Actions to test + retrain + redeploy
+- [ ] Monitoring for data drift (spending patterns change over time)
+- [ ] One cloud platform basics (AWS or GCP)
+- [ ] SQL for working with real data
+
+**Ship:** Polished GitHub repo + README with architecture diagram → start applying.
+
+## After Week 8 — Job hunt (keep building while applying)
+- [ ] Apply to ML Engineer / junior ML roles every day
+- [ ] Interview prep: ML fundamentals Q&A, ML system design ("design a fraud detector"), Python coding problems
+- [ ] One Kaggle competition for extra portfolio proof
+- [ ] Keep improving the Budget Tracker ML features
+
+---
+
+## Math — learn it when you need it
+- Linear algebra → when doing PCA and neural networks
+- Probability & statistics → when doing evaluation metrics and anomaly detection
+- Calculus (gradients) → when doing backpropagation in PyTorch
+
+## For every algorithm, answer
+1. What problem does it solve?
+2. When to use it versus the alternatives?
+3. How to evaluate it?
+
+## How to learn effectively
+- **70/30 rule:** 70% building, 30% theory and courses
+- **Learn in public:** post projects on GitHub, write about what I learned
+- **Daily 12 hrs ≈ 8.5 hrs building + 3.5 hrs theory**
+  - Morning (3.5 hrs): theory, courses, reading — fresh brain for hard concepts
+  - Afternoon + evening (8.5 hrs): build that phase's feature, with breaks
+  - Last 15 min: write notes on what I learned (feeds the blog/GitHub)
+- **1 rest day per week** — at 12 hrs/day, burnout is the biggest risk to finishing
+
+## Later / optional
+- Receipt scanning with a CNN (photo → amount + merchant)
+- On-device models in React Native (ONNX / TensorFlow Lite)
