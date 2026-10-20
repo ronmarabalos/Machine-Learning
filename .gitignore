@@ -5,3 +5,7 @@ __pycache__/
 # Private financial data, never push
 data/*
 !data/.gitkeep
+
+# Claude Code config, local only
+CLAUDE.md
+.claude/
