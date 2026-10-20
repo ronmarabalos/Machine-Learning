@@ -9,3 +9,6 @@ data/*
 # Claude Code config, local only
 CLAUDE.md
 .claude/
+
+# Trained models, rebuilt by notebooks/02-categorizer.ipynb
+models/
