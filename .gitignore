@@ -12,3 +12,6 @@ CLAUDE.md
 
 # Trained models, rebuilt by notebooks/02-categorizer.ipynb
 models/
+
+# Brainstorming companion mockups
+.superpowers/
