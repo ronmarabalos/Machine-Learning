@@ -32,13 +32,13 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 
 **Ship:** A model that turns "STARBUCKS #123" into "Food", saved to a file. ✅ 2026-10-21
 
-## Phase 3 — Deployment: connect ML to the app (Week 3)
+## Phase 3 — Deployment: connect ML to the app (Week 3) ✅
 - [x] FastAPI: a `/categorize` endpoint — 2026-10-22, service/app.py (11 tests passing)
 - [x] Docker: containerize the API — 2026-10-22, service/Dockerfile (tests pass in container)
 - [x] Deploy it (Render, Railway, Fly.io, or similar) — 2026-10-22, Vercel: https://machine-learning-rose.vercel.app (live /health + /categorize verified)
-- [ ] Call it from the React Native app with `fetch` + a TypeScript type for the response
+- [x] Call it from the React Native app with `fetch` + a TypeScript type for the response — 2026-10-22, budgettracker/mobile/src/services/category-suggest.ts (typecheck + lint pass, 9-item device checklist passed)
 
-**Ship:** New transactions in the app get auto-categorized. ← This is what makes me an ML *engineer*.
+**Ship:** New transactions in the app get auto-categorized. ← This is what makes me an ML *engineer*. ✅ 2026-10-22
 
 ## Phase 4 — Feature #2 & #3: Anomalies + Forecasting (Weeks 4–5)
 - [ ] Unsupervised learning: K-means clustering, PCA
