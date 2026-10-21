@@ -35,7 +35,7 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 ## Phase 3 — Deployment: connect ML to the app (Week 3)
 - [x] FastAPI: a `/categorize` endpoint — 2026-10-22, service/app.py (11 tests passing)
 - [x] Docker: containerize the API — 2026-10-22, service/Dockerfile (tests pass in container)
-- [ ] Deploy it (Render, Railway, Fly.io, or similar)
+- [x] Deploy it (Render, Railway, Fly.io, or similar) — 2026-10-22, Vercel: https://machine-learning-rose.vercel.app (live /health + /categorize verified)
 - [ ] Call it from the React Native app with `fetch` + a TypeScript type for the response
 
 **Ship:** New transactions in the app get auto-categorized. ← This is what makes me an ML *engineer*.
