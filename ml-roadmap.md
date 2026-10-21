@@ -33,8 +33,8 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 **Ship:** A model that turns "STARBUCKS #123" into "Food", saved to a file. ✅ 2026-10-21
 
 ## Phase 3 — Deployment: connect ML to the app (Week 3)
-- [ ] FastAPI: a `/categorize` endpoint
-- [ ] Docker: containerize the API
+- [x] FastAPI: a `/categorize` endpoint — 2026-10-22, service/app.py (11 tests passing)
+- [x] Docker: containerize the API — 2026-10-22, service/Dockerfile (tests pass in container)
 - [ ] Deploy it (Render, Railway, Fly.io, or similar)
 - [ ] Call it from the React Native app with `fetch` + a TypeScript type for the response
 
