@@ -101,3 +101,12 @@ def test_baseline_when_model_none(monkeypatch):
         days = calendar.monthrange(today.year, today.month)[1]
         assert f['end_of_month'] == round(feats['spent'] / today.day * days, 2)
         assert f['next_month'] == round(feats['avg3'], 2)
+
+
+def test_custom_category_uses_baseline():
+    # The model never saw 'other' in training (its code would fall in Entertainment's leaf)
+    today = date(2026, 8, 15)
+    daily = every_day(date(2026, 2, 1), date(2026, 8, 15))
+    [f] = post(today, [{'key': 'rent', 'category': None, 'daily': daily}]).json()['forecasts']
+    assert f['end_of_month'] == round(1500 / 15 * 31, 2)
+    assert f['next_month'] == round(sum(100 * n for n in (31, 31, 30)) / 3, 2)

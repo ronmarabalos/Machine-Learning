@@ -88,11 +88,14 @@ def predict(today: date, series: list[dict]) -> list[dict]:
             continue
         nxt = next_features(s['category'], s['daily'], today)
         spent, avg3 = eom['spent'], eom['avg3']
-        if EOM['model'] is None:
+        # Custom categories ('other') never appear in training: the models would treat them like
+        # Entertainment, so they get the baselines
+        custom = eom['category_code'] == len(CATEGORIES) - 1
+        if EOM['model'] is None or custom:
             end = spent / today.day * days_in(today)
         else:
             end = spent + max(0.0, _ratio(EOM, eom)) * avg3
-        following = avg3 if NEXT['model'] is None else max(0.0, _ratio(NEXT, nxt)) * avg3
+        following = avg3 if NEXT['model'] is None or custom else max(0.0, _ratio(NEXT, nxt)) * avg3
         out.append({'key': s['key'], 'spent': round(spent, 2), 'end_of_month': round(max(end, spent), 2),
                     'next_month': round(following, 2)})
     return out
