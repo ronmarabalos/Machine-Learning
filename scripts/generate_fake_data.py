@@ -1,9 +1,10 @@
 """Generate fake Budget Tracker transactions in the app's CSV export format.
 
 Usage: .venv\\Scripts\\python scripts\\generate_fake_data.py
-Writes data/fake_transactions.csv (importable back into the app via Data Backup).
+Writes data/fake_transactions.csv (or data/fake_transactions_3y.csv), importable into the app via Data Backup.
 """
 
+import argparse
 import csv
 import random
 from datetime import datetime, timedelta, timezone
@@ -59,18 +60,29 @@ def row(date, kind, amount, category, description, account=None, anomaly=""):
 
 END = datetime(2026, 10, 21)  # fixed (was "today") so every run produces the same file
 SPREE_CATEGORIES = ["Groceries", "Shopping", "Entertainment"]  # ≤ 2 purchases/week, so a spree stands out
+# 3-year file only (patterns=True): learnable signal for the Week 5 forecasting models
+DECEMBER_CATEGORIES = ["Shopping", "Food & Drinks", "Entertainment"]  # amounts ×1.3 in December
+WEEKEND_CATEGORIES = ["Food & Drinks", "Coffee & Snacks", "Entertainment"]  # ~30% more purchases on Sat/Sun
 
 
-def generate(days=365):
+def generate(days=365, patterns=False):
+    """patterns=True adds yearly growth, a December bump and busier weekends. New random draws
+    happen only then, so the default 1-year output stays identical."""
     end = END
     rows = []
     for d in range(days):
         date = end - timedelta(days=days - d)
+        growth = 1 + 0.05 * d / 365 if patterns else 1
         for category, (merchants, lo, hi, per_day) in EXPENSES.items():
             if not merchants:
                 continue
-            for _ in range(int(per_day) + (random.random() < per_day % 1)):
-                amount = random.uniform(lo, hi)
+            count = int(per_day) + (random.random() < per_day % 1)
+            if patterns and date.weekday() >= 5 and category in WEEKEND_CATEGORIES:
+                count += random.random() < per_day * 0.3
+            for _ in range(count):
+                amount = random.uniform(lo, hi) * growth
+                if patterns and date.month == 12 and category in DECEMBER_CATEGORIES:
+                    amount *= 1.3
                 spike = random.random() < 0.01
                 if spike:
                     amount *= random.uniform(4, 8)  # rare spending spike, labelled for anomaly detection
@@ -78,7 +90,7 @@ def generate(days=365):
                 rows.append(row(date, "expense", amount, category, desc, anomaly="spike" if spike else ""))
         if date.day == 5:
             for name, lo, hi in BILLS:
-                rows.append(row(date, "expense", random.uniform(lo, hi), "Bills & Utilities", noisy(name), "BDO Savings"))
+                rows.append(row(date, "expense", random.uniform(lo, hi) * growth, "Bills & Utilities", noisy(name), "BDO Savings"))
         if date.day in (15, 30):
             rows.append(row(date, "income", 18000, "Salary", "Payroll", "BDO Savings"))
         if random.random() < 0.03:
@@ -91,7 +103,7 @@ def generate(days=365):
     rng = random.Random(7)
     first_monday = end - timedelta(days=days) + timedelta(days=(7 - (end - timedelta(days=days)).weekday()) % 7)
     mondays = [first_monday + timedelta(weeks=w) for w in range((end - first_monday).days // 7)]
-    for monday in rng.sample(mondays[1:-1], 6):  # skip partial first/last weeks
+    for monday in rng.sample(mondays[1:-1], 6 * (days // 365)):  # skip partial first/last weeks
         category = rng.choice(SPREE_CATEGORIES)
         merchants, lo, hi, _ = EXPENSES[category]
         for _ in range(rng.randint(4, 6)):
@@ -101,19 +113,45 @@ def generate(days=365):
     return rows
 
 
+def check_patterns(rows):
+    """Self-checks for the 3-year file: growth, December and weekend patterns are learnable."""
+    exp = [(datetime.fromisoformat(r["Date"].replace("Z", "+00:00")), r["Category"], float(r["Amount"]))
+           for r in rows if r["Type"] == "expense" and not r["Anomaly"]]
+    mean = lambda xs: sum(xs) / len(xs)
+    for cat in DECEMBER_CATEGORIES:
+        dec = [a for d, c, a in exp if c == cat and d.month == 12]
+        rest = [a for d, c, a in exp if c == cat and d.month != 12]
+        assert mean(dec) >= 1.2 * mean(rest), cat
+    start = min(d for d, _, _ in exp)
+    first = [a for d, _, a in exp if d < start + timedelta(days=365)]
+    last = [a for d, _, a in exp if d >= max(d for d, _, _ in exp) - timedelta(days=365)]
+    assert mean(last) >= 1.07 * mean(first)
+    food = [d.date() for d, c, _ in exp if c == "Food & Drinks"]
+    days = {start.date() + timedelta(days=i) for i in range((max(food) - start.date()).days + 1)}
+    weekend = [d for d in days if d.weekday() >= 5]
+    rate = lambda ds: sum(d in ds for d in food) / len(ds)
+    assert rate(set(weekend)) >= 1.2 * rate(days - set(weekend))
+
+
 if __name__ == "__main__":
-    rows = generate()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--years", type=int, default=1)
+    years = parser.parse_args().years
+    rows = generate(days=365 * years, patterns=years > 1)
 
     # self-check: matches the app's default categories and import rules
     defaults = set(EXPENSES) | {"Salary", "Freelance / Client", "Other Income"}
     assert {r["Category"] for r in rows} <= defaults
     assert all(float(r["Amount"]) > 0 for r in rows)
-    assert len(rows) > 1000
+    assert len(rows) > 1000 * years
     expenses = [r for r in rows if r["Type"] == "expense"]
     assert 0.005 <= sum(r["Anomaly"] == "spike" for r in expenses) / len(expenses) <= 0.02
-    assert 24 <= sum(r["Anomaly"] == "spree" for r in rows) <= 36
+    assert 24 * years <= sum(r["Anomaly"] == "spree" for r in rows) <= 36 * years
+    if years > 1:
+        check_patterns(rows)
 
-    out = Path(__file__).resolve().parent.parent / "data" / "fake_transactions.csv"
+    name = "fake_transactions.csv" if years == 1 else f"fake_transactions_{years}y.csv"
+    out = Path(__file__).resolve().parent.parent / "data" / name
     with out.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["Date", "Type", "Amount", "Category", "Account", "Description", "Anomaly"], quoting=csv.QUOTE_ALL)
         writer.writeheader()
