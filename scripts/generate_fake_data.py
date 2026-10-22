@@ -1,6 +1,6 @@
 """Generate fake Budget Tracker transactions in the app's CSV export format.
 
-Usage: .venv\\Scripts\\python scripts\\generate_fake_data.py
+Usage: .venv\\Scripts\\python scripts\\generate_fake_data.py [--years 3]
 Writes data/fake_transactions.csv (or data/fake_transactions_3y.csv), importable into the app via Data Backup.
 """
 
