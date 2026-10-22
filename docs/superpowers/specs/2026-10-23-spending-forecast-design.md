@@ -134,12 +134,12 @@ After deploying, recheck the cold start (6.1 s before). If LightGBM fails to loa
 - typecheck and lint pass
 
 **Device checklist** (test account with the fake CSV imported):
-- [ ] Budgets shows "On pace for ₱ …" on category budgets
-- [ ] A category budget set below its pace turns the line to the warning colour and Ollie shows the pace message
-- [ ] Reports shows "Next month" with a total
-- [ ] Airplane mode → the same screens still show numbers (fallback)
-- [ ] Spending forecasts off → no pace lines, no Next month section, no pace message
-- [ ] Light and dark themes look right
+- [x] Budgets shows "On pace for ₱ …" on category budgets
+- [x] A category budget set below its pace turns the line to the warning colour and Ollie shows the pace message
+- [x] Reports shows "Next month" with a total
+- [x] Airplane mode → the same screens still show numbers (fallback)
+- [x] Spending forecasts off → no pace lines, no Next month section, no pace message
+- [x] Light and dark themes look right
 
 ## Build order
 

@@ -43,11 +43,11 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 ## Phase 4 — Feature #2 & #3: Anomalies + Forecasting (Weeks 4–5)
 - [ ] Unsupervised learning: K-means clustering, PCA
 - [x] Anomaly detection (Isolation Forest): "you spent 3× your normal on X" — 2026-10-23, notebooks/04-anomalies.ipynb (ratio rule vs robust z vs Isolation Forest), Ollie alerts in the app
-- [ ] Regression + gradient boosting (XGBoost / LightGBM): predict next month's spending
-- [ ] Feature engineering: rolling averages, day-of-week, recurring payments
-- [ ] Avoid data leakage with time-based splits (left: a time-based train/test split; Week 4 only used earlier-only medians)
+- [x] Regression + gradient boosting (XGBoost / LightGBM): predict next month's spending — 2026-10-23, notebooks/05-forecasting.ipynb (HistGB + LightGBM vs baselines; end-of-month HistGB ships, next month the 3-month average won the gate)
+- [x] Feature engineering: rolling averages, day-of-week, recurring payments — 2026-10-23, notebooks/05-forecasting.ipynb (avg3/avg6, weekend_days_left, last_month_share_by_day)
+- [x] Avoid data leakage with time-based splits — 2026-10-23, notebooks/05-forecasting.ipynb (last 6 months as test, look-ahead check), notebooks/04-anomalies.ipynb (earlier-only medians)
 
-**Ship:** `/anomalies` and `/forecast` endpoints + screens in the app.
+**Ship:** `/anomalies` and `/forecast` endpoints + screens in the app. ✅ 2026-10-23 (`/forecast` on Vercel + Budgets, Reports, Ollie; anomalies run on the phone by design, Phase 4A)
 
 ## Phase 5 — Deep Learning (Weeks 6–7)
 - [ ] Neural network basics: neurons, layers, activation functions, loss functions, optimizers
