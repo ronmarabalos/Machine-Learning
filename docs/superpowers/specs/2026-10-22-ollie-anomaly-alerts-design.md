@@ -140,16 +140,19 @@ Greetings (5, 6) have no "Got it" and are never dismissed. The Home card shows t
 **Typecheck and lint:** `npm run typecheck`, `npm run lint` pass.
 
 **Device checklist** (test account with the fake CSV imported):
-- [ ] Ollie appears under the greeting in the chosen version
-- [ ] Recent spike → thinking Ollie, "about N× your usual" → View opens the transaction
-- [ ] Got it → next message; reopening the app does not bring the dismissed one back
-- [ ] Over-budget message comes first
-- [ ] Unusual spending alerts off → only budget messages and greetings
-- [ ] Switching companion changes the art
-- [ ] No alerts → celebrating or happy greeting
-- [ ] Saving shows only "Recorded ₱ …"
-- [ ] Airplane mode → Ollie still works
-- [ ] Light and dark themes look right
+
+
+
+- [x] Ollie appears under the greeting in the chosen version
+- [x] Recent spike → thinking Ollie, "about N× your usual" → View opens the transaction
+- [x] Got it → next message; reopening the app does not bring the dismissed one back
+- [x] Over-budget message comes first
+- [x] Unusual spending alerts off → only budget messages and greetings
+- [x] Switching companion changes the art
+- [x] No alerts → celebrating or happy greeting
+- [x] Saving shows only "Recorded ₱ …"
+- [x] Airplane mode → Ollie still works
+- [x] Light and dark themes look right
 
 ## Build order
 
