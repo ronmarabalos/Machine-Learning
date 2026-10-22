@@ -1,11 +1,13 @@
+from datetime import date
 from pathlib import Path
 from typing import Annotated, Literal
 
 import joblib
 import numpy as np
 from fastapi import FastAPI
-from pydantic import BaseModel, StringConstraints
+from pydantic import BaseModel, Field, StringConstraints, model_validator
 
+import forecast
 from clean import clean_description
 
 THRESHOLD = 0.5
@@ -65,6 +67,32 @@ def categorize(req: CategorizeRequest):
     )
 
     return {'category': category, 'confidence': confidence}
+
+
+class Series(BaseModel):
+    key: Annotated[str, StringConstraints(min_length=1, max_length=64)]
+    category: Annotated[str, StringConstraints(max_length=40)] | None = None
+    daily: dict[date, Annotated[float, Field(ge=0, allow_inf_nan=False)]]
+
+
+class ForecastRequest(BaseModel):
+    today: date
+    series: Annotated[list[Series], Field(max_length=50)]
+
+    @model_validator(mode='after')
+    def dates_in_window(self):
+        start = forecast.month_start(self.today, forecast.WINDOW_MONTHS)
+        for s in self.series:
+            if any(d < start or d > self.today for d in s.daily):
+                raise ValueError(f'daily dates must be between {start} and {self.today}')
+        return self
+
+
+@app.post('/forecast')
+def forecast_spending(req: ForecastRequest):
+    # Only daily totals per category arrive here; the body is never logged
+    series = [{'key': s.key, 'category': s.category, 'daily': s.daily} for s in req.series]
+    return {'forecasts': forecast.predict(req.today, series)}
 
 
 @app.get('/health')
