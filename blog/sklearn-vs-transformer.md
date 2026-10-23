@@ -18,7 +18,7 @@ One random train/test split isn't enough here. The data has 72 merchants written
 
 1. **Seen merchants:** the usual random 80/20 split (1,102 training rows, 276 test rows).
 2. **Unseen merchants:** 15 merchants held out completely, every spelling of them (1,081 training rows, 297 test rows). A check confirms no merchant appears on both sides.
-3. **New Philippine merchants:** 44 real merchants that never appear in the data, like Popeyes, Andok's, Caltex and Zalora. These are scored with the models from the unseen experiment.
+3. **New Philippine merchants:** 44 descriptions of 43 real merchants that never appear in the data, like Popeyes, Andok's, Caltex and Zalora. These are scored with the models from the unseen experiment.
 
 To keep it fair, every model was timed the same way: on the CPU, one thread, one description per call, the median of 200 calls after a warm-up. That's what a small server actually does.
 
@@ -34,19 +34,19 @@ To keep it fair, every model was timed the same way: on the CPU, one thread, one
 
 ![Size vs speed](figures/speed-size.png)
 
-On merchants the models had seen, all three tie at about 97%. Macro F1, which weighs rare categories as much as common ones, separates them a little: MiniLM 0.897, DistilBERT 0.796, TF-IDF 0.792. On merchants they had never seen, the order flips: the smallest model is best, and the fine-tuned transformer is worst.
+On merchants the models had seen, all three tie at about 97%. Macro F1, which weighs rare categories as much as common ones, separates them a little: MiniLM 0.897, DistilBERT 0.796, TF-IDF 0.792. On the 15 held-out merchants, the order flips: the smallest model is best, and the fine-tuned transformer is worst. On the new Philippine merchants it changes again: MiniLM is best and TF-IDF is last, but all three are low, and the gaps are only a few rows (15, 12 and 11 correct out of 44).
 
 ## What surprised me
 
 I expected DistilBERT to win on unseen merchants. Its lower layers learned from Wikipedia and books, so in theory it already knows that "pharmacy" or "pizza" means something, and fine-tuning only has to connect that knowledge to my 11 categories. Instead it dropped to 25.6%, less than half of TF-IDF's 63.0%.
 
-My best explanation: with only 72 merchants to learn from, fine-tuning taught DistilBERT the merchant names themselves rather than what the words mean. It memorised a lookup table. Its mistakes on the new merchants point the same way: `BENCH*7710` (a clothing shop) became Salary, and `Converge FiberX` (internet) became Groceries. Those answers aren't close to any reading of the name.
+My best explanation, which this experiment can't prove: with only 72 merchants to learn from, fine-tuning may have taught DistilBERT the merchant names themselves rather than what the words mean. Some of its mistakes on the new merchants fit that: `BENCH*7710` (a clothing shop) became Salary, and `Converge FiberX` (internet) became Groceries. But TF-IDF made equally odd guesses (Zalora and Southstar Drug both became Coffee & Snacks), and on the new merchants DistilBERT actually edged out TF-IDF, so the evidence is mixed.
 
-The simple model's mistakes were different: it matched letters. `Yellow Cab Pizza` became Transportation, because it saw "cab" and ignored "pizza". Many other mistakes were reasonable. Goldilocks, a bakery, went to Coffee & Snacks instead of Food & Drinks, a line people blur too. Some names, like Caltex or Payoneer, carry no category information unless you already know the brand.
+The simple model's mistakes show what matching letters means. `Yellow Cab Pizza` became Transportation. I expected "cab" to be the reason, but "yellow" alone already gives Transportation, and "pizza" on its own gives Shopping: the model never learned "pizza" as food at all. Many other mistakes were reasonable. Goldilocks, a bakery, went to Coffee & Snacks instead of Food & Drinks, a line people blur too. Some names, like Caltex or Payoneer, carry no category information unless you already know the brand.
 
 MiniLM, which reads but is never trained, did best on brand-new merchants (34.1%), and its mistakes made the most sense. But no model got a single income row right, even `ACME CORP SALARY` with "salary" right there, because income has very few training examples.
 
-This experiment has limits. The data is generated, not real spending; there are only 72 merchants; and I used one fixed set of fine-tuning settings, with no tuning. A transformer trained on thousands of real merchants could well do better. What it shows is that on a dataset this size, the bigger model isn't automatically the better one.
+This experiment has limits. The data is generated, not real spending; there are only 72 merchants; the unseen test is 15 merchants from one split with one random seed, so the gap between models comes down to a few merchants; and I used one fixed set of fine-tuning settings, with no tuning. A transformer trained on thousands of real merchants could well do better. What it shows is that on a dataset this size, the bigger model isn't automatically the better one.
 
 ## The production view
 
