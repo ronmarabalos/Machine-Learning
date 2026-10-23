@@ -85,12 +85,12 @@ Data: `data/fake_transactions_3y.csv`, expenses only, dates used as local dates 
 - typecheck and lint pass
 
 **Device checklist** (test account with `fake_transactions_3y.csv` imported):
-- [ ] Reports shows "Your weeks" with this week's type and 8 coloured chips
-- [ ] On Monday or Tuesday (or with the phone's date changed) the card says "Last week: …"
-- [ ] With no alerts, Ollie shows the week-type line with the right pose
-- [ ] "Week type from Ollie" off → no Ollie line; the Reports card stays
-- [ ] Airplane mode → everything still works
-- [ ] Light and dark themes look right
+- [x] Reports shows "Your weeks" with this week's type and 8 coloured chips
+- [x] On Monday or Tuesday (or with the phone's date changed) the card says "Last week: …"
+- [x] With no alerts, Ollie shows the week-type line with the right pose
+- [x] "Week type from Ollie" off → no Ollie line; the Reports card stays
+- [x] Airplane mode → everything still works
+- [x] Light and dark themes look right
 
 ## Build order
 

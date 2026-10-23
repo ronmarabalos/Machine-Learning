@@ -40,8 +40,8 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 
 **Ship:** New transactions in the app get auto-categorized. ← This is what makes me an ML *engineer*. ✅ 2026-10-22
 
-## Phase 4 — Feature #2 & #3: Anomalies + Forecasting (Weeks 4–5)
-- [ ] Unsupervised learning: K-means clustering, PCA
+## Phase 4 — Feature #2 & #3: Anomalies + Forecasting (Weeks 4–5) ✅
+- [x] Unsupervised learning: K-means clustering, PCA — 2026-10-23, notebooks/06-week-types.ipynb (k=5 by elbow + silhouette, PCA plot and loadings), week types on Reports and from Ollie
 - [x] Anomaly detection (Isolation Forest): "you spent 3× your normal on X" — 2026-10-23, notebooks/04-anomalies.ipynb (ratio rule vs robust z vs Isolation Forest), Ollie alerts in the app
 - [x] Regression + gradient boosting (XGBoost / LightGBM): predict next month's spending — 2026-10-23, notebooks/05-forecasting.ipynb (HistGB + LightGBM vs baselines; end-of-month HistGB ships, next month the 3-month average won the gate)
 - [x] Feature engineering: rolling averages, day-of-week, recurring payments — 2026-10-23, notebooks/05-forecasting.ipynb (avg3/avg6, weekend_days_left, last_month_share_by_day)
