@@ -4,3 +4,8 @@ matplotlib
 jupyter
 scikit-learn
 lightgbm
+# Deep learning (Phase 5). torch from the CUDA index: pip install torch --index-url https://download.pytorch.org/whl/cu128
+torch
+transformers
+accelerate
+sentence-transformers
