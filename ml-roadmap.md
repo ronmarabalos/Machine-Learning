@@ -49,15 +49,15 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 
 **Ship:** `/anomalies` and `/forecast` endpoints + screens in the app. ✅ 2026-10-23 (`/forecast` on Vercel + Budgets, Reports, Ollie; anomalies run on the phone by design, Phase 4A)
 
-## Phase 5 — Deep Learning (Weeks 6–7)
-- [ ] Neural network basics: neurons, layers, activation functions, loss functions, optimizers
-- [ ] Forward pass / backpropagation
-- [ ] PyTorch
-- [ ] Transformers + Hugging Face: fine-tune a small model for categorization
-- [ ] Compare it with the Phase 2 model (accuracy vs speed vs cost)
-- [ ] Know what CNNs / RNNs / LSTMs are (concepts only, no need to build)
+## Phase 5 — Deep Learning (Weeks 6–7) ✅
+- [x] Neural network basics: neurons, layers, activation functions, loss functions, optimizers — 2026-10-24, notebooks/07-nn-from-scratch.ipynb (NumPy layers, ReLU, softmax, cross-entropy, SGD), notebooks/08-pytorch.ipynb (SGD vs Adam)
+- [x] Forward pass / backpropagation — 2026-10-24, notebooks/07-nn-from-scratch.ipynb (backprop by hand, gradient check 1.35e-07), notebooks/08-pytorch.ipynb (autograd matches to ~1e-17)
+- [x] PyTorch — 2026-10-24, notebooks/08-pytorch.ipynb (autograd, nn.Module, optimizers, GPU timing, dropout/weight decay, early stopping)
+- [x] Transformers + Hugging Face: fine-tune a small model for categorization — 2026-10-24, notebooks/09-transformer-vs-sklearn.ipynb (DistilBERT fine-tuned with Trainer on the RTX 3060)
+- [x] Compare it with the Phase 2 model (accuracy vs speed vs cost) — 2026-10-24, notebooks/09-transformer-vs-sklearn.ipynb, blog/results.json (seen/unseen/new merchants, size, CPU latency, training time)
+- [x] Know what CNNs / RNNs / LSTMs are (concepts only, no need to build) — 2026-10-24, notebooks/08-pytorch.ipynb section F
 
-**Ship:** Blog post: "scikit-learn vs a fine-tuned transformer for categorizing my transactions"
+**Ship:** Blog post: "scikit-learn vs a fine-tuned transformer for categorizing my transactions" ✅ 2026-10-24 (blog/sklearn-vs-transformer.md)
 
 ## Phase 6 — MLOps polish (Week 8)
 - [ ] Version control for code (Git) and data/models (DVC)
