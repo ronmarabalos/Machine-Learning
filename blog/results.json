@@ -1,0 +1,70 @@
+{
+ "models": {
+  "tfidf_logreg": {
+   "size_mb": 0.14,
+   "latency_ms": 0.702,
+   "train_s": 0.1
+  },
+  "minilm_logreg": {
+   "size_mb": 91.61,
+   "latency_ms": 11.602,
+   "train_s": 0.9
+  },
+  "distilbert": {
+   "size_mb": 268.57,
+   "latency_ms": 30.687,
+   "train_s": 6.8
+  }
+ },
+ "scores": {
+  "tfidf_logreg": {
+   "seen": {
+    "accuracy": 0.971,
+    "macro_f1": 0.7919
+   },
+   "unseen": {
+    "accuracy": 0.6296,
+    "macro_f1": 0.3336
+   },
+   "new": {
+    "accuracy": 0.25,
+    "macro_f1": 0.1613
+   }
+  },
+  "minilm_logreg": {
+   "seen": {
+    "accuracy": 0.9783,
+    "macro_f1": 0.8966
+   },
+   "unseen": {
+    "accuracy": 0.4949,
+    "macro_f1": 0.2264
+   },
+   "new": {
+    "accuracy": 0.3409,
+    "macro_f1": 0.2183
+   }
+  },
+  "distilbert": {
+   "seen": {
+    "accuracy": 0.9746,
+    "macro_f1": 0.7956
+   },
+   "unseen": {
+    "accuracy": 0.2559,
+    "macro_f1": 0.1777
+   },
+   "new": {
+    "accuracy": 0.2727,
+    "macro_f1": 0.1816
+   }
+  }
+ },
+ "rows": {
+  "seen_train": 1102,
+  "seen_test": 276,
+  "unseen_train": 1081,
+  "unseen_test": 297,
+  "new": 44
+ }
+}
