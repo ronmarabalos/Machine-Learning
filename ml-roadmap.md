@@ -61,7 +61,7 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 
 ## Phase 6 — MLOps polish (Week 8)
 - [x] Version control for code (Git) and data/models (DVC) — 2026-11-06, models.dvc + datasets.dvc (rollback tested in 5c76d5a)
-- [ ] CI/CD: GitHub Actions to test + retrain + redeploy
+- [x] CI/CD: GitHub Actions to test + retrain + redeploy — 2026-11-06, .github/workflows/test.yml + retrain.yml (CI run 42244709705 → commit 104debc → Vercel deploy)
 - [ ] Monitoring for data drift (spending patterns change over time)
 - [ ] One cloud platform basics (AWS or GCP)
 - [ ] SQL for working with real data
