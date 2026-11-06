@@ -64,7 +64,7 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 - [x] CI/CD: GitHub Actions to test + retrain + redeploy — 2026-11-06, .github/workflows/test.yml + retrain.yml (CI run 42244709705 → commit 104debc → Vercel deploy)
 - [x] Monitoring for data drift (spending patterns change over time) — 2026-11-06, notebooks/10-drift-monitoring.ipynb
 - [ ] One cloud platform basics (AWS or GCP)
-- [ ] SQL for working with real data
+- [x] SQL for working with real data — 2026-11-07, notebooks/11-sql.ipynb
 
 **Ship:** Polished GitHub repo + README with architecture diagram → start applying.
 
