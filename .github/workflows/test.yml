@@ -17,3 +17,17 @@ jobs:
           cache-dependency-path: service/requirements.txt
       - run: pip install -r requirements.txt pytest httpx  # same as Dockerfile
       - run: python -m pytest tests -q  # -m puts service/ on the import path
+
+  dvc-pull:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+      - run: pip install dvc
+      - run: |
+          dvc remote modify --local dagshub user ronmarabalos
+          dvc remote modify --local dagshub password "${{ secrets.DAGSHUB_TOKEN }}"
+      - run: dvc pull
+      - run: ls -la models datasets

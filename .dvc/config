@@ -1,4 +1,7 @@
 [core]
-    remote = storage
+    remote = dagshub
 ['remote "storage"']
     url = D:/dvc-storage
+['remote "dagshub"']
+    url = https://dagshub.com/ronmarabalos/Machine-Learning.dvc
+    auth = basic
