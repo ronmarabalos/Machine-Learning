@@ -60,7 +60,7 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 **Ship:** Blog post: "scikit-learn vs a fine-tuned transformer for categorizing my transactions" ✅ 2026-10-24 (blog/sklearn-vs-transformer.md)
 
 ## Phase 6 — MLOps polish (Week 8)
-- [ ] Version control for code (Git) and data/models (DVC)
+- [x] Version control for code (Git) and data/models (DVC) — 2026-11-06, models.dvc + datasets.dvc (rollback tested in 5c76d5a)
 - [ ] CI/CD: GitHub Actions to test + retrain + redeploy
 - [ ] Monitoring for data drift (spending patterns change over time)
 - [ ] One cloud platform basics (AWS or GCP)
