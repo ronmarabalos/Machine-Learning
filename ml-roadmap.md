@@ -79,7 +79,7 @@ The server only works out what the question is asking (intent) and the date rang
 - [x] Intent training data: 8 intents × 30–50 questions, incl. `out_of_scope` + Taglish (`datasets/intents.csv`) — 2026-11-07, datasets/intents.csv (317 rows, 34–45 per intent, 0 duplicates)
 - [ ] Separate test set written later without looking at the training file (`datasets/intents_test.csv`) (left: current 64 rows were written by Claude right after the training file; add 3–5 of my own per intent)
 - [ ] Train intent classifier: TF-IDF + LogisticRegression, confusion matrix, pick `THRESHOLD` (`notebooks/12-intents.ipynb`)
-- [ ] Date parser `parse_range(question, today)` with tests: ranges, this week, last month, today, 10 years ago, no date
+- [x] Date parser `parse_range(question, today)` with tests: ranges, this week, last month, today, 10 years ago, no date — 2026-11-07, service/dates.py + service/tests/test_dates.py (49 tests, 81/81 passing)
 - [ ] `/ask` endpoint: intent + confidence + start/end, `null` when unsure, tests in CI
 - [ ] Finance tips: `datasets/faq.csv` + TF-IDF matching to the closest answer
 - [ ] App: NetInfo online check → `/ask` → wallet match on phone → SQL → answer
