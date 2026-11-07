@@ -59,3 +59,46 @@ def test_health():
 def test_model_classes_match_app_defaults():
     from app import model
     assert set(model.classes_) <= APP_DEFAULTS
+
+
+def ask(question, today='2026-11-07'):
+    return client.post('/ask', json={'question': question, 'today': today})
+
+
+def test_ask_spend_with_date_range():
+    body = ask('how much did i spend from aug 4 to aug 11').json()
+    assert body['intent'] == 'spend_total'
+    assert (body['start'], body['end']) == ('2026-08-04', '2026-08-11')
+
+
+def test_ask_no_dates_uses_intent_default():
+    body = ask('give me my weekly summary').json()
+    assert body['intent'] == 'weekly_summary'
+    assert (body['start'], body['end']) == ('2026-11-02', '2026-11-07')  # Monday to today
+
+
+def test_ask_report_without_dates_means_all_time():
+    body = ask('all transactions report').json()
+    assert body['intent'] == 'report'
+    assert body['start'] is None and body['end'] is None
+
+
+def test_ask_unsure_returns_null_intent():
+    body = ask('how much is a jollibee chickenjoy').json()
+    assert body['intent'] is None
+    assert body['start'] is None and body['end'] is None
+
+
+def test_ask_non_money_questions_get_no_dates():
+    for q, intent in [("what's the weather today", 'out_of_scope'), ('banana', 'out_of_scope'),
+                      ('what is an emergency fund', 'finance_tip')]:
+        body = ask(q).json()
+        assert body['intent'] == intent, q
+        assert body['start'] is None and body['end'] is None, q
+
+
+def test_ask_rejects_bad_input():
+    assert ask('   ').status_code == 422
+    assert ask('x' * 201).status_code == 422
+    assert ask('weekly summary', today='not-a-date').status_code == 422
+    assert client.post('/ask', json={'question': 'weekly summary'}).status_code == 422  # no today

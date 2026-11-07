@@ -7,10 +7,13 @@ import numpy as np
 from fastapi import FastAPI
 from pydantic import BaseModel, Field, StringConstraints, model_validator
 
+import dates
 import forecast
 from clean import clean_description
 
 THRESHOLD = 0.5
+INTENT_THRESHOLD = 0.4  # placeholder until picked in notebooks/12-intents.ipynb section D
+DATED_INTENTS = {'spend_total', 'income_total', 'daily_summary', 'weekly_summary', 'list_transactions', 'report'}
 MODEL_VERSION = '2026-10-21'
 INCOME = {'Salary', 'Freelance / Client', 'Other Income'}
 
@@ -18,6 +21,7 @@ INCOME = {'Salary', 'Freelance / Client', 'Other Income'}
 model = joblib.load(
     Path(__file__).parent / 'model' / 'categorizer.joblib'
 )
+intent_model = joblib.load(Path(__file__).parent / 'model' / 'intents.joblib')
 
 app = FastAPI()
 
@@ -93,6 +97,35 @@ def forecast_spending(req: ForecastRequest):
     # Only daily totals per category arrive here; the body is never logged
     series = [{'key': s.key, 'category': s.category, 'daily': s.daily} for s in req.series]
     return {'forecasts': forecast.predict(req.today, series)}
+
+
+class AskRequest(BaseModel):
+    question: Annotated[
+        str,
+        StringConstraints(strip_whitespace=True, min_length=1, max_length=200)
+    ]
+    today: date  # the phone's date, so "this week" matches the user's calendar
+
+
+@app.post('/ask')
+def ask(req: AskRequest):
+    # Only the question arrives here, never transactions; the phone runs the query itself
+    probs = intent_model.predict_proba([req.question.lower()])[0]  # same lowercase as the notebook
+    best = int(np.argmax(probs))
+    confidence = float(probs[best])
+    intent = str(intent_model.classes_[best]) if confidence >= INTENT_THRESHOLD else None
+
+    # Unsure, out_of_scope and finance_tip get no dates, even if the question says "today"
+    span = None
+    if intent in DATED_INTENTS:
+        span = dates.parse_range(req.question, req.today) or dates.default_range(intent, req.today)
+
+    return {
+        'intent': intent,
+        'confidence': confidence,
+        'start': span[0] if span else None,
+        'end': span[1] if span else None,
+    }
 
 
 @app.get('/health')
