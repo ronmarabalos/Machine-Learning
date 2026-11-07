@@ -38,9 +38,8 @@ flowchart LR
 
     UI -- description --> CAT
     UI -- daily totals --> FC
-    R -- commits new model --> M
-    M -. push to main redeploys .-> Vercel
-    NB --> DH
+    R -- "commits model (Vercel redeploys)" --> M
+    NB -- dvc push --> DH
     T -. dvc pull .-> DH
 ```
 

@@ -66,7 +66,7 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 - [ ] One cloud platform basics (AWS or GCP)
 - [x] SQL for working with real data — 2026-11-07, notebooks/11-sql.ipynb
 
-**Ship:** Polished GitHub repo + README with architecture diagram → start applying.
+**Ship:** Polished GitHub repo + README with architecture diagram → start applying. ✅ 2026-11-07 (README.md, repo public)
 
 ## After Week 8 — Job hunt (keep building while applying)
 - [ ] Apply to ML Engineer / junior ML roles every day
