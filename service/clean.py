@@ -8,7 +8,7 @@ BRANCHES = [
 
 def clean_description(text):
     text = text.lower()
-    text = re.sub(r'\*?\d+', '', text)
+    text = re.sub(r'\*?\d{3,}', '', text)  # store codes like *4821; keeps the 7 in 7-Eleven
 
     for branch in BRANCHES:
         text = text.replace(branch, '')
