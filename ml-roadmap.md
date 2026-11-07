@@ -74,6 +74,18 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 - [ ] One Kaggle competition for extra portfolio proof
 - [ ] Keep improving the Budget Tracker ML features
 
+## Feature #4: Ask Spendif (questions about my money, no LLM)
+The server only works out what the question is asking (intent) and the date range. The phone runs the SQL on its own data, so transactions never leave it. Online only.
+- [ ] Intent training data: 8 intents × 30–50 questions, incl. `out_of_scope` + Taglish (`datasets/intents.csv`)
+- [ ] Separate test set written later without looking at the training file (`datasets/intents_test.csv`)
+- [ ] Train intent classifier: TF-IDF + LogisticRegression, confusion matrix, pick `THRESHOLD` (`notebooks/12-intents.ipynb`)
+- [ ] Date parser `parse_range(question, today)` with tests: ranges, this week, last month, today, 10 years ago, no date
+- [ ] `/ask` endpoint: intent + confidence + start/end, `null` when unsure, tests in CI
+- [ ] Finance tips: `datasets/faq.csv` + TF-IDF matching to the closest answer
+- [ ] App: NetInfo online check → `/ask` → wallet match on phone → SQL → answer
+
+**Mini project:** On my phone, "how much did i spend this week" returns the correct number (checked by hand).
+
 ---
 
 ## Math — learn it when you need it
