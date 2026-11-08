@@ -78,7 +78,7 @@ The app stays in TypeScript. All ML lives in a separate Python service the app c
 The server only works out what the question is asking (intent) and the date range. The phone runs the SQL on its own data, so transactions never leave it. Online only.
 - [x] Intent training data: 8 intents × 30–50 questions, incl. `out_of_scope` + Taglish (`datasets/intents.csv`) — 2026-11-07, datasets/intents.csv (317 rows, 34–45 per intent, 0 duplicates)
 - [ ] Separate test set written later without looking at the training file (`datasets/intents_test.csv`) (left: current 64 rows were written by Claude right after the training file; add 3–5 of my own per intent)
-- [ ] Train intent classifier: TF-IDF + LogisticRegression, confusion matrix, pick `THRESHOLD` (`notebooks/12-intents.ipynb`)
+- [x] Train intent classifier: TF-IDF + LogisticRegression, confusion matrix, pick `THRESHOLD` (`notebooks/12-intents.ipynb`) — 2026-11-09, notebooks/12-intents.ipynb (char_wb chosen by CV 0.826; test 88.9% on 90 rows; THRESHOLD 0.35 answers 87% at 92.3%)
 - [x] Date parser `parse_range(question, today)` with tests: ranges, this week, last month, today, 10 years ago, no date — 2026-11-07, service/dates.py + service/tests/test_dates.py (49 tests, 81/81 passing)
 - [x] `/ask` endpoint: intent + confidence + start/end, `null` when unsure, tests in CI — 2026-11-07, service/app.py + service/tests/test_app.py (CI run 42388595114: 87 passed; live on Vercel)
 - [x] Finance tips: `datasets/faq.csv` + TF-IDF matching to the closest answer — 2026-11-08, service/faq.csv (38 topics; in service/ so Vercel ships it) + service/faq.py + service/tests/test_faq.py (124/124 passing; 21/24 new wordings get a tip through /ask, 3 lost to the intent model)
