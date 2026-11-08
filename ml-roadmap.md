@@ -81,7 +81,7 @@ The server only works out what the question is asking (intent) and the date rang
 - [ ] Train intent classifier: TF-IDF + LogisticRegression, confusion matrix, pick `THRESHOLD` (`notebooks/12-intents.ipynb`)
 - [x] Date parser `parse_range(question, today)` with tests: ranges, this week, last month, today, 10 years ago, no date — 2026-11-07, service/dates.py + service/tests/test_dates.py (49 tests, 81/81 passing)
 - [x] `/ask` endpoint: intent + confidence + start/end, `null` when unsure, tests in CI — 2026-11-07, service/app.py + service/tests/test_app.py (CI run 42388595114: 87 passed; live on Vercel)
-- [ ] Finance tips: `datasets/faq.csv` + TF-IDF matching to the closest answer
+- [x] Finance tips: `datasets/faq.csv` + TF-IDF matching to the closest answer — 2026-11-08, service/faq.csv (38 topics; in service/ so Vercel ships it) + service/faq.py + service/tests/test_faq.py (124/124 passing; 21/24 new wordings get a tip through /ask, 3 lost to the intent model)
 - [ ] App: NetInfo online check → `/ask` → wallet match on phone → SQL → answer
 
 **Mini project:** On my phone, "how much did i spend this week" returns the correct number (checked by hand).

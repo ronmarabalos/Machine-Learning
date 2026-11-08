@@ -97,6 +97,17 @@ def test_ask_non_money_questions_get_no_dates():
         assert body['start'] is None and body['end'] is None, q
 
 
+def test_ask_finance_tip_comes_with_the_closest_answer():
+    body = ask('what is an emergency fund').json()
+    assert body['tip']['question'] == 'what is an emergency fund'
+    assert 'surprises' in body['tip']['answer']
+
+
+def test_ask_tip_only_for_finance_questions():
+    assert ask('how much did i spend this week').json()['tip'] is None
+    assert ask('banana').json()['tip'] is None
+
+
 def test_ask_rejects_bad_input():
     assert ask('   ').status_code == 422
     assert ask('x' * 201).status_code == 422

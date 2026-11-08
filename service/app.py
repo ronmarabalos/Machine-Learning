@@ -8,6 +8,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field, StringConstraints, model_validator
 
 import dates
+import faq
 import forecast
 from clean import clean_description
 
@@ -120,11 +121,15 @@ def ask(req: AskRequest):
     if intent in DATED_INTENTS:
         span = dates.parse_range(req.question, req.today) or dates.default_range(intent, req.today)
 
+    # Finance tips are general text, so they're answered here; None when no stored question is close
+    tip = faq.match(req.question) if intent == 'finance_tip' else None
+
     return {
         'intent': intent,
         'confidence': confidence,
         'start': span[0] if span else None,
         'end': span[1] if span else None,
+        'tip': tip and {'question': tip['question'], 'answer': tip['answer']},
     }
 
 
