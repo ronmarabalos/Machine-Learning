@@ -57,3 +57,4 @@ def test_faq_csv_is_well_formed():
     assert len(phrases) == len(set(phrases)), 'same wording under two topics'
     for r in rows:
         assert r['answer'].strip() and len(r['answer']) <= 500, r['topic']
+        assert r['answer_tl'].strip() and len(r['answer_tl']) <= 600, r['topic']

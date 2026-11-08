@@ -28,9 +28,9 @@ def best_match(question):
     return TOPICS[topic], phrase, float(scores[best])
 
 
-def match(question):
-    """{'topic', 'question', 'answer'} for a close enough match, else None."""
+def match(question, lang='en'):
+    """{'topic', 'question', 'answer'} for a close enough match, else None. lang 'tl' gives the Taglish answer."""
     topic, phrase, score = best_match(question)
     if score < MIN_SCORE:
         return None
-    return {'topic': topic['topic'], 'question': phrase, 'answer': topic['answer']}
+    return {'topic': topic['topic'], 'question': phrase, 'answer': topic['answer_tl' if lang == 'tl' else 'answer']}

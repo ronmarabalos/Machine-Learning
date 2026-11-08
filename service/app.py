@@ -1,3 +1,4 @@
+import re
 from datetime import date
 from pathlib import Path
 from typing import Annotated, Literal
@@ -15,6 +16,16 @@ from clean import clean_description
 THRESHOLD = 0.5
 INTENT_THRESHOLD = 0.35  # 90-row test set: 87% answered at 92.3% accuracy; 0.4 refused 10 correct to avoid 1 wrong
 DATED_INTENTS = {'spend_total', 'income_total', 'daily_summary', 'weekly_summary', 'list_transactions', 'report'}
+# One of these words makes a question Taglish, so Ollie answers in Taglish. Left out on purpose:
+# "may" (also the month) and short words that are English too.
+# shortcut: a word list, not a language model; add words when Taglish questions get English replies
+TAGALOG_WORDS = {
+    'ako', 'ang', 'ano', 'anong', 'araw', 'ba', 'binayad', 'binili', 'buod', 'buwan', 'dapat', 'gaano', 'gastos',
+    'ginastos', 'hanggang', 'ilan', 'ipakita', 'ipon', 'kahapon', 'kamusta', 'kinita', 'ko', 'kung', 'lahat',
+    'linggo', 'listahan', 'magkano', 'makaipon', 'mga', 'mo', 'mula', 'nagastos', 'naman', 'natanggap', 'ng',
+    'ngayon', 'ngayong', 'noong', 'nung', 'pakita', 'paano', 'para', 'po', 'pumasok', 'sa', 'sahod', 'sweldo',
+    'taon', 'utang',
+}
 MODEL_VERSION = '2026-10-21'
 INCOME = {'Salary', 'Freelance / Client', 'Other Income'}
 
@@ -121,8 +132,10 @@ def ask(req: AskRequest):
     if intent in DATED_INTENTS:
         span = dates.parse_range(req.question, req.today) or dates.default_range(intent, req.today)
 
+    lang = 'tl' if TAGALOG_WORDS & set(re.findall(r'[a-z]+', req.question.lower())) else 'en'
+
     # Finance tips are general text, so they're answered here; None when no stored question is close
-    tip = faq.match(req.question) if intent == 'finance_tip' else None
+    tip = faq.match(req.question, lang) if intent == 'finance_tip' else None
 
     return {
         'intent': intent,
@@ -130,6 +143,7 @@ def ask(req: AskRequest):
         'start': span[0] if span else None,
         'end': span[1] if span else None,
         'tip': tip and {'question': tip['question'], 'answer': tip['answer']},
+        'lang': lang,
     }
 
 

@@ -41,6 +41,13 @@ def test_today_is_saturday():
     ('what did i pay for 2 weeks ago', '2026-10-19', '2026-10-25'),
     ('recap of the past 7 days', '2026-11-01', '2026-11-07'),
     ('total spending since monday', '2026-11-02', '2026-11-07'),
+    # Taglish
+    ('magkano nagastos ko mula aug 4 hanggang aug 11', '2026-08-04', '2026-08-11'),
+    ('ano mga binili ko nung biyernes', '2026-11-06', '2026-11-06'),
+    ('gastos ko noong lunes', '2026-11-02', '2026-11-02'),
+    ('summary nung sabado', '2026-11-07', '2026-11-07'),  # today is Saturday
+    ('gastos ko nung nakaraang sabado', '2026-10-31', '2026-10-31'),
+    ('magkano gastos ko mula miyerkules', '2026-11-04', '2026-11-07'),
     # months and years
     ('total expenses this month', '2026-11-01', '2026-11-07'),
     ('spending report last month', '2026-10-01', '2026-10-31'),

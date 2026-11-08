@@ -20,6 +20,10 @@ YEAR = r'((?:19|20)\d\d)'
 TO = r'\s*(?:to|-|–|and|until|hanggang)\s*'
 UNIT = r'(day|week|month|year)s?'
 WEEKDAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+# Tagalog day names; "linggo" (Sunday) is left out because it also means "week"
+TL_WEEKDAYS = {'lunes': 'mon', 'martes': 'tue', 'miyerkules': 'wed', 'miyerkoles': 'wed',
+               'huwebes': 'thu', 'biyernes': 'fri', 'sabado': 'sat'}
+DAY_NAMES = '|'.join(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', *TL_WEEKDAYS])
 MAY_BEFORE = {'in', 'noong', 'of', 'for', 'sa', 'last', 'this'}  # "may" is also a Tagalog word
 
 
@@ -81,6 +85,8 @@ def _parse(q: str, today: date) -> tuple[date, date] | None:
     # Most specific patterns first: "aug 4 to aug 11" must not be read as just "aug 4"
     if m := re.search(r'\b(?:since|mula)\s+(.+)', q):
         r = _parse(m[1], today)
+        if r and re.search(r'\b(?:to|until|hanggang)\b', m[1]):
+            return r  # "mula aug 4 hanggang aug 11" has its own end
         return (r[0], today) if r else None
 
     if m := re.search(rf'\b{MONTH}\s+{DAY}{TO}(?:{MONTH}\s+)?{DAY}\b', q):
@@ -118,8 +124,8 @@ def _parse(q: str, today: date) -> tuple[date, date] | None:
         if re.search(pattern, q):
             return fn(today)
 
-    if m := re.search(r'\b(last\s+)?(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b', q):
-        back = (today.weekday() - WEEKDAYS.index(m[2][:3])) % 7
+    if m := re.search(rf'\b(last\s+|nakaraang\s+)?({DAY_NAMES})\b', q):
+        back = (today.weekday() - WEEKDAYS.index(TL_WEEKDAYS.get(m[2], m[2][:3]))) % 7
         d = today - timedelta(7 if m[1] and back == 0 else back)
         return d, d
 

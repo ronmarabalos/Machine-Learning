@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 
 from app import INCOME, app
@@ -101,6 +102,25 @@ def test_ask_finance_tip_comes_with_the_closest_answer():
     body = ask('what is an emergency fund').json()
     assert body['tip']['question'] == 'what is an emergency fund'
     assert 'surprises' in body['tip']['answer']
+
+
+@pytest.mark.parametrize('question, lang', [
+    ('how much did i spend this week', 'en'),
+    ('what is an emergency fund', 'en'),
+    ('report for may', 'en'),                    # "may" is the month here
+    ('magkano nagastos ko this week', 'tl'),
+    ('how much ang nagastos ko sa gcash', 'tl'),  # one Tagalog word is enough
+    ('summary for kahapon', 'tl'),
+    ('Paano mag-ipon?', 'tl'),
+])
+def test_ask_detects_taglish(question, lang):
+    assert ask(question).json()['lang'] == lang
+
+
+def test_ask_taglish_tip_is_in_taglish():
+    body = ask('ano ang emergency fund').json()
+    assert body['lang'] == 'tl'
+    assert body['tip']['answer'].startswith('Ang emergency fund ay')
 
 
 def test_ask_tip_only_for_finance_questions():
