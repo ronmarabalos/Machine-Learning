@@ -85,13 +85,14 @@ def test_ask_report_without_dates_means_all_time():
 
 
 def test_ask_unsure_returns_null_intent():
-    body = ask('how much is a jollibee chickenjoy').json()
+    body = ask('pera ko').json()  # too vague to pick an intent
     assert body['intent'] is None
     assert body['start'] is None and body['end'] is None
 
 
 def test_ask_non_money_questions_get_no_dates():
     for q, intent in [("what's the weather today", 'out_of_scope'), ('banana', 'out_of_scope'),
+                      ('how much is a jollibee chickenjoy', 'out_of_scope'),  # a price, not my spending
                       ('what is an emergency fund', 'finance_tip')]:
         body = ask(q).json()
         assert body['intent'] == intent, q

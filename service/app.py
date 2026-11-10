@@ -14,7 +14,7 @@ import forecast
 from clean import clean_description
 
 THRESHOLD = 0.5
-INTENT_THRESHOLD = 0.35  # 90-row test set: 87% answered at 92.3% accuracy; 0.4 refused 10 correct to avoid 1 wrong
+INTENT_THRESHOLD = 0.35  # 114-row test set: 94% answered, 93.5% of those right (see notebooks/12-intents.ipynb)
 DATED_INTENTS = {'spend_total', 'income_total', 'daily_summary', 'weekly_summary', 'list_transactions', 'report'}
 # One of these words makes a question Taglish, so Ollie answers in Taglish. Left out on purpose:
 # "may" (also the month) and short words that are English too.
