@@ -16,3 +16,5 @@ models/
 # Brainstorming companion mockups
 .superpowers/
 /datasets
+.vercel
+.env*
