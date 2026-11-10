@@ -10,6 +10,7 @@ The ML side of **Spendify**, my budget tracker app (React Native + TypeScript). 
 | Spending forecast (end of month, next month) | Gradient boosting (HistGB) on rolling averages and calendar features, `POST /forecast` | Ships only where it beat the baselines on a time-based test split |
 | "You spent 3× your normal" alerts | Ratio rule vs robust z-score vs Isolation Forest | Runs on the phone, no data leaves the device |
 | Week types on the Reports screen | K-means + PCA | 5 clusters, chosen by elbow + silhouette |
+| **Ask Spendif:** "how much did i spend this week?", in English or Taglish | Intent classifier (TF-IDF + logistic regression, 8 intents incl. `out_of_scope`) + rule-based date parser + TF-IDF FAQ matching for finance tips, `POST /ask`. No LLM | 93.5% right on the 94% of test questions it answers; says "not sure" on the rest. Only the question is sent, the phone computes the answer from its own data |
 
 ## Architecture
 
@@ -23,13 +24,15 @@ flowchart LR
     subgraph Vercel["Vercel (FastAPI, service/)"]
         CAT["/categorize"]
         FC["/forecast"]
+        ASK["/ask"]
         M[(service/model/*.joblib)]
         CAT --> M
         FC --> M
+        ASK --> M
     end
 
     subgraph GH["GitHub Actions"]
-        T[test.yml<br/>25 API tests on every push]
+        T[test.yml<br/>API tests on every push]
         R[retrain.yml<br/>generate data → train → 90% gate → tests]
     end
 
@@ -38,9 +41,10 @@ flowchart LR
 
     UI -- description --> CAT
     UI -- daily totals --> FC
+    UI -- "question only" --> ASK
     R -- "commits model (Vercel redeploys)" --> M
     NB -- dvc push --> DH
-    T -. dvc pull .-> DH
+    DH -. dvc pull .-> T
 ```
 
 ## MLOps
@@ -65,6 +69,7 @@ flowchart LR
 | 09 | [transformer-vs-sklearn](notebooks/09-transformer-vs-sklearn.ipynb) | Fine-tuned DistilBERT vs MiniLM vs TF-IDF |
 | 10 | [drift-monitoring](notebooks/10-drift-monitoring.ipynb) | PSI, KS test, confidence drift |
 | 11 | [sql](notebooks/11-sql.ipynb) | SQLite: CTEs, window functions, joins |
+| 12 | [intents](notebooks/12-intents.ipynb) | Intent classifier for Ask Spendif: held-out test set, confusion matrix, confidence threshold |
 
 ## Blog
 
@@ -76,7 +81,7 @@ flowchart LR
 python -m venv .venv && .venv/Scripts/activate      # macOS/Linux: source .venv/bin/activate
 cd service
 pip install -r requirements.txt uvicorn pytest httpx # API only; ../requirements.txt has the notebook stack
-python -m pytest tests -q                            # 25 tests
+python -m pytest tests -q
 uvicorn app:app --reload                             # http://localhost:8000/docs
 ```
 
