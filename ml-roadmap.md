@@ -82,9 +82,9 @@ The server only works out what the question is asking (intent) and the date rang
 - [x] Date parser `parse_range(question, today)` with tests: ranges, this week, last month, today, 10 years ago, no date — 2026-11-07, service/dates.py + service/tests/test_dates.py (49 tests, 81/81 passing)
 - [x] `/ask` endpoint: intent + confidence + start/end, `null` when unsure, tests in CI — 2026-11-07, service/app.py + service/tests/test_app.py (CI run 42388595114: 87 passed; live on Vercel)
 - [x] Finance tips: `datasets/faq.csv` + TF-IDF matching to the closest answer — 2026-11-08, service/faq.csv (38 topics; in service/ so Vercel ships it) + service/faq.py + service/tests/test_faq.py (124/124 passing; 21/24 new wordings get a tip through /ask, 3 lost to the intent model)
-- [ ] App: NetInfo online check → `/ask` → wallet match on phone → SQL → answer
+- [x] App: NetInfo online check → `/ask` → wallet match on phone → SQL → answer — 2026-11-10, budgettracker/mobile fe52fbe: src/hooks/use-online.ts (expo-network instead of NetInfo) → src/services/ask.ts → src/features/companion/ask-answer.ts (wallet/category match + totals over the in-memory store instead of SQL; scripts/check-ask.mjs passing) → ChatScreen.tsx with evidence
 
-**Mini project:** On my phone, "how much did i spend this week" returns the correct number (checked by hand).
+**Mini project:** On my phone, "how much did i spend this week" returns the correct number (checked by hand). ✅ 2026-11-10 (phone test by me: totals, Nov 1–5 evidence list, Taglish tip, input above keyboard)
 
 ---
 
